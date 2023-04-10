@@ -6,7 +6,7 @@ import datetime
 import re
 
 
-# exceptions class
+# exceptions class.
 class BadDateFormat(Exception):
     """ raised if date is not specified in correct or instructed format. """
     pass
@@ -15,6 +15,9 @@ class UnKnownErrors(Exception):
     """ raised when error is not known. """
     pass
 
+
+
+# main class section.
 class NseIndia:
     """ NseIndia : class to get data from National Stocks Exchange of india. """
     def __init__(self):
