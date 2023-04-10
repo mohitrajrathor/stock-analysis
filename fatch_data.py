@@ -1,5 +1,8 @@
 # python module to fatch stocks data from web 
 import requests
+import pandas as pd
+import numpy as np
+
 
 class NseIndia:
     """
@@ -9,4 +12,7 @@ class NseIndia:
         pass
 
     def bhavcopy(self):
+        '''Fatch bhavcopy
+        return : pandas Dataframe  
+        '''
         pass
