@@ -48,7 +48,7 @@ class NseIndia:
         '''
         d, m, y = date_parser(date)
         y = y % 100
-        return pd.read_csv(f'https://archives.nseindia.com/archives/sme/bhavcopy/sme{d}{m}{y}.csv')
+        return pd.read_csv(f'https://archives.nseindia.com/archives/sme/bhavcopy/sme{d}{m}{y}.csv') # wrong link
 
 
     def bulk_deals(self):
@@ -58,17 +58,6 @@ class NseIndia:
         '''
         return pd.read_csv('https://archives.nseindia.com/content/equities/bulk.csv')
 
-    def circuit(self, date = None):
-        '''
-        Fatch upper_circuit report
-        parms ->
-            date : (data-type : str) dd-mm-yyyy
-        return -> pd.DataFrame
-        '''
-        d, m, y = date_parser(date) # parse date
-        return pd.read_csv(f'https://archives.nseindia.com/products/content/equities/equities/circuit_{d}{m}{y}.csv')
-
 
 if __name__ == "__main__":
-    bulk = NseIndia()
-    print(bulk.get_bhavcopy())
+    pass
