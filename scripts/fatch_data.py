@@ -1,4 +1,4 @@
-# python module to fatch stocks data from web 
+''' python module to fatch stocks data from web '''
 import requests
 import pandas as pd
 import numpy as np
