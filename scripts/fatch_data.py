@@ -31,6 +31,7 @@ class NseIndia:
         '''
         if date is None:
             date = datetime.datetime.now()   # choose today if no date is specified
+            d, m, y = [int(i) for i in (date.strftime('%d-%m-%Y')).split('-')]
         else:
             try:
                 d, m, y = [int(i) for i in date.split('-')]
@@ -39,3 +40,7 @@ class NseIndia:
                     raise BadDateFormat("date is not specified in correct format.")
                 else:
                     raise UnknownError('Cannot find out error.')
+
+
+if __name__ == "__main__":
+    pass
