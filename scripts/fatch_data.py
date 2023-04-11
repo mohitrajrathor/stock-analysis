@@ -23,7 +23,7 @@ class NseIndia:
     def __init__(self):
         pass
 
-    def bhavcopy(self, date = None):
+    def get_bhavcopy(self, date = None):
         '''
         Fatch bhavcopy
         date : (data-type : str) dd-mm-yyyy formate
@@ -35,7 +35,7 @@ class NseIndia:
             try:
                 d, m, y = [int(i) for i in date.split('-')]
             except:
-                if re.compile(date, '[0-9]+-[0-9]+-[0-9]+'):
+                if re.match('[0-9]+-[0-9]+-[0-9]+', date):
                     raise BadDateFormat("date is not specified in correct format.")
                 else:
                     raise UnknownError('Cannot find out error.')
