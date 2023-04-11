@@ -6,29 +6,30 @@ import datetime
 import re
 
 
+# exceptions class.
+class BadDateFormat(Exception):
+    """ raised if date is not specified in correct or instructed format. """
+    pass
+
+class UnknownError(Exception):
+    """ raised when error is not known. """
+    pass
+
 # common funcs. 
 def date_parser(date):
     if date is None:
             date = datetime.datetime.now()   # choose today if no date is specified
             d, m, y = [int(i) for i in (date.strftime('%d-%m-%Y')).split('-')]
             return (d, m, y)
-        else:
-            try:
-                d, m, y = [int(i) for i in date.split('-')]
-            except:
-                if re.match('[0-9]+-[0-9]+-[0-9]+', date):
-                    raise BadDateFormat("date is not specified in correct format.")
-                else:
-                    raise UnknownError('Cannot find out error.')
+    else:
+        try:
+            d, m, y = [int(i) for i in date.split('-')]
+        except:
+            if re.match('[0-9]+-[0-9]+-[0-9]+', date):
+                raise BadDateFormat("date is not specified in correct format.")
+            else:
+                raise UnknownError('Cannot find out error.')
 
-# exceptions class.
-class BadDateFormat(Exception):
-    """ raised if date is not specified in correct or instructed format. """
-    pass
-
-class UnKnownErrors(Exception):
-    """ raised when error is not known. """
-    pass
 
 
 
@@ -41,19 +42,33 @@ class NseIndia:
     def get_bhavcopy(self, date = None):
         '''
         Fatch bhavcopy
-        date : (data-type : str) dd-mm-yyyy format
-        return : data-type : pandas Dataframe 
+        parms ->
+            date : (data-type : str) dd-mm-yyyy format
+        return -> data-type : pandas Dataframe 
         '''
         d, m, y = date_parser(date)
+        y = y % 100
+        return pd.read_csv(f'https://archives.nseindia.com/archives/sme/bhavcopy/sme{d}{m}{y}.csv')
 
 
-    def bulk_deals(self, date = None):
+    def bulk_deals(self):
         '''
-        Fatch bulk deals data
-        date : (data-type : str) dd-mm-yyyy format 
-        return : pd.DataFrame 
+        Fatch bulk deals data 
+        return -> pd.DataFrame 
         '''
-        d, m, y = date_parser(date)
+        return pd.read_csv('https://archives.nseindia.com/content/equities/bulk.csv')
+
+    def circuit(self, date = None):
+        '''
+        Fatch upper_circuit report
+        parms ->
+            date : (data-type : str) dd-mm-yyyy
+        return -> pd.DataFrame
+        '''
+        d, m, y = date_parser(date) # parse date
+        return pd.read_csv(f'https://archives.nseindia.com/products/content/equities/equities/circuit_{d}{m}{y}.csv')
+
 
 if __name__ == "__main__":
-    pass
+    bulk = NseIndia()
+    print(bulk.get_bhavcopy())
