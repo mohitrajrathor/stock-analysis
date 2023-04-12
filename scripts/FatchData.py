@@ -1,4 +1,6 @@
 ''' python module to fatch stocks data from web '''
+
+# libraries.
 import requests
 import pandas as pd
 import numpy as np
@@ -29,8 +31,6 @@ def date_parser(date):
                 raise BadDateFormat("date is not specified in correct format.")
             else:
                 raise UnknownError('Cannot find out error.')
-
-
 
 
 # main class section.
