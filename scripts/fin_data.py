@@ -59,5 +59,24 @@ class NseIndia:
         return pd.read_csv('https://archives.nseindia.com/content/equities/bulk.csv')
 
 
+class yahoo:
+    def __init__(self) -> None:
+        pass
+
+    def historical_data(self, symbol: str, _from:str, to = datetime.datetime.now().strftime('%d-%m-%Y') ):
+        '''
+        Fatch historical data:
+        params:
+            symbol : stocks or etf symbol
+            _from  : starting date from (dd-mm-yyyy)
+            to     : end date (dd-mm-yyyy)
+
+        link : 
+             
+        '''
+
+
+
+
 if __name__ == "__main__":
     pass
