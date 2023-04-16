@@ -83,15 +83,19 @@ class yahoo:
         start_date = int(datetime.datetime(*(list(reversed([int(i) for i in _from.split('-')]))), 5, 30, 0).timestamp())
         end_date = int(datetime.datetime(*(list(reversed([int(i) for i in to.split('-')]))), 17, 30, 0).timestamp())
 
-        res = requests.get(f'https://query1.finance.yahoo.com/v7/finance/download/{symbol}.NS?period1={start_date}&period2={end_date}&interval=1d&events=history&includeAdjustedClose=true')
+        res = requests.get(f'https://query1.finance.yahoo.com/v7/finance/download/{symbol}.NS?period1={start_date}&period2={end_date}&interval=1d&events=history&includeAdjustedClose=true', headers = headers)
 
-        with open(f'data\\{symbol}.csv', 'wb+') as fh:
+        with open(f'.\\data\\{symbol}.csv', 'wb') as fh:
             fh.write(res.content)
 
-        return f'data\\{symbol}.csv'
+        return f'data\\{symbol}.csv'  # return the name or locaion of the file so that we can
+                                      #  easily find out the location of the csv file.
+
+    
 
 
 
 
 if __name__ == "__main__":
-    pass
+    ticker = yahoo()
+    print(ticker.historical_data('SBIN', '01-04-2023'))
