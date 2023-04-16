@@ -8,6 +8,12 @@ import datetime
 import re
 
 
+# constants.
+headers = {
+    'user-agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Mobile Safari/537.36'
+}
+
+
 # exceptions class.
 class BadDateFormat(Exception):
     """ raised if date is not specified in correct or instructed format. """
@@ -72,8 +78,17 @@ class yahoo:
             to     : end date (dd-mm-yyyy)
 
         link : 
-             
+            https://query1.finance.yahoo.com/v7/finance/download/SBIN.NS?period1=1673827200&period2=1681603200&interval=1d&events=history&includeAdjustedClose=true
         '''
+        start_date = int(datetime.datetime(*(list(reversed([int(i) for i in _from.split('-')]))), 5, 30, 0).timestamp())
+        end_date = int(datetime.datetime(*(list(reversed([int(i) for i in to.split('-')]))), 17, 30, 0).timestamp())
+
+        res = requests.get(f'https://query1.finance.yahoo.com/v7/finance/download/{symbol}.NS?period1={start_date}&period2={end_date}&interval=1d&events=history&includeAdjustedClose=true')
+
+        with open(f'data\\{symbol}.csv', 'wb+') as fh:
+            fh.write(res.content)
+
+        return f'data\\{symbol}.csv'
 
 
 
