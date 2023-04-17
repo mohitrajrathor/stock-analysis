@@ -4,8 +4,7 @@
 import requests                # making web requests
 import pandas as pd            # dealing with csv files
 import numpy as np             # deal with large arrays
-import datetime                # make use of timestamp and dates
-import re                      # help in pattern matching.
+import zipfile, os, re, datetime
 
 
 # constants.
@@ -49,12 +48,37 @@ class NseIndia:
         '''
         Fatch bhavcopy
         parms ->
-            date : (data-type : str) dd-mm-yyyy format
+            date : (data-type : str) ddmmmyyyy format e.g. for 17-APR-2023 it is 17APR2023
         return -> data-type : pandas Dataframe 
+        link : 
+            https://archives.nseindia.com/content/historical/EQUITIES/2023/APR/cm17APR2023bhav.csv.zip
         '''
-        d, m, y = date_parser(date)
-        y = y % 100
-        pass # to be continue....
+        if date is None:
+            date = datetime.datetime.now().strftime('%d%b%Y')
+
+        try :
+            res = requests.get(f'https://archives.nseindia.com/content/historical/EQUITIES/2023/APR/cm{date.lower()}bhav.csv.zip', headers= headers)
+            print(res.status_code)
+            bhav = res.content
+            with open('I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav.zip', 'wb') as z:
+                z.write(bhav)
+            with open('I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav.csv', 'r') as bhav:
+                with zipfile.ZipFile('I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav.csv') as z:
+                    with z.open(f'cm{date}bhav.csv', 'rb') as c:
+                        bhav.write(c.read())
+
+            os.remove('I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav.zip')
+            flag = False
+
+        except Exception as e:
+            print(e)
+            flag = True
+
+        finally:
+            if flag:
+                print('Fatching bhavcopy failed. :(')
+            else:
+                print('Successfully Fatched bhavcopy.')
 
 
     def bulk_deals(self):
