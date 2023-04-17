@@ -1,17 +1,17 @@
 ''' python module to fatch stocks data from web '''
 
 # libraries.
-import requests
-import pandas as pd
-import numpy as np
-import datetime
-import re
+import requests                # making web requests
+import pandas as pd            # dealing with csv files
+import numpy as np             # deal with large arrays
+import datetime                # make use of timestamp and dates
+import re                      # help in pattern matching.
 
 
 # constants.
 headers = {
     'user-agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Mobile Safari/537.36'
-}
+}    # used to indicate that a webbrowser is requesting a web page.
 
 
 # exceptions class.
@@ -54,7 +54,7 @@ class NseIndia:
         '''
         d, m, y = date_parser(date)
         y = y % 100
-        return pd.read_csv(f'https://archives.nseindia.com/archives/sme/bhavcopy/sme{d}{m}{y}.csv') # wrong link
+        pass # to be continue....
 
 
     def bulk_deals(self):
