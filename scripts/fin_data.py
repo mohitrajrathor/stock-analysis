@@ -57,15 +57,15 @@ class NseIndia:
             date = datetime.datetime.now().strftime('%d%b%Y')
 
         try :
-            res = requests.get(f'https://archives.nseindia.com/content/historical/EQUITIES/2023/APR/cm{date.lower()}bhav.csv.zip', headers= headers)
+            res = requests.get(f'https://archives.nseindia.com/content/historical/EQUITIES/2023/APR/cm{date.upper()}bhav.csv.zip')
             print(res.status_code)
             bhav = res.content
             with open('I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav.zip', 'wb') as z:
                 z.write(bhav)
-            with open('I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav.csv', 'r') as bhav:
-                with zipfile.ZipFile('I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav.csv') as z:
-                    with z.open(f'cm{date}bhav.csv', 'rb') as c:
-                        bhav.write(c.read())
+
+            with zipfile.ZipFile('I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav.zip', "r") as z:
+                with open(f'I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav{date.upper()}.csv', 'wb') as c:
+                    c.write(z.read(z.namelist()[0]))
 
             os.remove('I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav.zip')
             flag = False
@@ -116,10 +116,6 @@ class yahoo:
                                       #  easily find out the location of the csv file.
 
     
-
-
-
-
 if __name__ == "__main__":
-    ticker = yahoo()
-    print(ticker.historical_data('SBIN', '01-04-2023'))
+    nse = NseIndia()
+    print(nse.get_bhavcopy())
