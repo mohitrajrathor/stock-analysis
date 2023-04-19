@@ -44,12 +44,12 @@ class NseIndia:
     def __init__(self):
         pass
 
-    def get_bhavcopy(self, date = None):
+    def get_bhavcopy(self, date = None) -> None:
         '''
         Fatch bhavcopy
         parms ->
             date : (data-type : str) ddmmmyyyy format e.g. for 17-APR-2023 it is 17APR2023
-        return -> data-type : pandas Dataframe 
+        return -> None 
         link : 
             https://archives.nseindia.com/content/historical/EQUITIES/2023/APR/cm17APR2023bhav.csv.zip
         '''
@@ -58,14 +58,14 @@ class NseIndia:
 
         try :
             res = requests.get(f'https://archives.nseindia.com/content/historical/EQUITIES/2023/APR/cm{date.upper()}bhav.csv.zip')
-            print(res.status_code)
+            print('Response code ... ',res.status_code)
             bhav = res.content
             with open('I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav.zip', 'wb') as z:
                 z.write(bhav)
 
             with zipfile.ZipFile('I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav.zip', "r") as z:
                 with open(f'I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav{date.upper()}.csv', 'wb') as c:
-                    c.write(z.read(z.namelist()[0]))
+                    c.write(z.read(z.namelist()[0]))     # namelist() returns list of filenames contains in zip.  
 
             os.remove('I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav.zip')
             flag = False
@@ -78,15 +78,23 @@ class NseIndia:
             if flag:
                 print('Fatching bhavcopy failed. :(')
             else:
-                print('Successfully Fatched bhavcopy.')
+                print(f'Successfully Fatched bhavcopy and saved at data\\{date.upper()}bhav.csv')
 
-
-    def bulk_deals(self):
+    def bulk_deals(self) -> pd.DataFrame:
         '''
         Fatch bulk deals data 
         return -> pd.DataFrame 
         '''
         return pd.read_csv('https://archives.nseindia.com/content/equities/bulk.csv')
+    
+    def get_index(self, index):
+        '''
+        Fatch index file (contains stocks data that are in given index)
+        param : 
+            index -> name | symbol of index
+
+        return -> None
+        ''' 
 
 
 class yahoo:
