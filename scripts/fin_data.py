@@ -117,7 +117,7 @@ class yahoo:
 
         res = requests.get(f'https://query1.finance.yahoo.com/v7/finance/download/{symbol}.NS?period1={start_date}&period2={end_date}&interval=1d&events=history&includeAdjustedClose=true', headers = headers)
 
-        with open(f'.\\data\\{symbol}.csv', 'wb') as fh:
+        with open(f'I:\\Programming\\WorkShop\\stock-analysis\\data\\{symbol}.csv', 'wb') as fh:
             fh.write(res.content)
 
         return f'data\\{symbol}.csv'  # return the name or locaion of the file so that we can
@@ -125,5 +125,5 @@ class yahoo:
 
     
 if __name__ == "__main__":
-    nse = NseIndia()
-    print(nse.get_bhavcopy())
+    nse = yahoo()
+    print(nse.historical_data('SBIN', _from = '1-1-2021'))
