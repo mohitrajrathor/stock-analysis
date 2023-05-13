@@ -3,6 +3,7 @@ import json
 import pprint
 import fin_data
 import pandas as pd
+from indicator import *
 
 
 # Intraday stocks selection Stretegy:
@@ -13,14 +14,6 @@ import pandas as pd
 # 5. Momentum Stocks
 # 6. Technical analysis
 
-# indicators funcs.
-def MA(data: pd.DataFrame, period: int, name=None):
-    data[f"MA{period}"] = data['Close'].rolling(period).mean()
-    return data[f"MA{period}"]
-
-
-def RSI(data: pd.DataFrame, period: int, name=None):
-    data['RSI'] = None
 
 
 # making symbol list
@@ -45,6 +38,25 @@ tv = TvDatafeed(user, pwd)
 stocks = []
 
 # method apply on data will be putted there.
+
+# data = tv.get_hist(symbol='BANKBARODA', exchange='NSE',
+#                        interval=Interval.in_5_minute, n_bars=1000)
+# print(list(data.iloc[-1]))
+
 for sym in bhav["SYMBOL"]:
-    data = tv.get_hist(symbol=sym, exchange='NSE',
-                       interval=Interval.in_5_minute, n_bars=1000)
+    try:
+        data = tv.get_hist(symbol = sym, exchange='NSE',
+                        interval=Interval.in_5_minute, n_bars=1000)
+        data['SMA20'] = SMA(data['close'], period = 20)
+        data['RSI14'] = RSI(data['close']-data['open'], 14)
+        data["ADX14"] = ADX(data['high'], data['low'], data['close'])
+        lstrow = list(data.iloc[-1])
+        if lstrow[-1] >= 25 and lstrow[-2] <= 30:
+            stocks.append(lstrow[0])
+            if lstrow[-3] < lstrow[-5]:
+                print("Bullish", end=" ")
+            print(lstrow)
+    except Exception as e:
+        print(sym)
+
+print(stocks)

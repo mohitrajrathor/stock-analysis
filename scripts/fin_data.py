@@ -42,7 +42,17 @@ def date_parser(date):
 class NseIndia:
     """ NseIndia : class to get data from National Stocks Exchange of india. """
     def __init__(self):
-        pass
+        self.nse = requests.get("https://www.nseindia.com/")
+
+    def index_data(self, index : str = 'NIFTY 50'):
+        sym = '%20'.join(index.split(' '))
+        idx_respo = requests.post(f'https://www.nseindia.com/api/equity-stockIndices?csv=true&index={sym}', headers=headers, cookies=self.nse.cookies)
+        with open(f'I:\\Programming\\WorkShop\\stock-analysis\\data\\{index}.csv', 'wb') as fh:
+            fh.write(idx_respo.content)
+
+        print(f'File {index}.csv saved at I:\\Programming\\WorkShop\\stock-analysis\\data\\{index}.csv')
+    
+        return f'I:\\Programming\\WorkShop\\stock-analysis\\data\\{index}.csv'
 
     def get_bhavcopy(self, date = None) -> None:
         '''
