@@ -46,6 +46,7 @@ class NseIndia:
 
     def index_data(self, index : str = 'NIFTY 50'):
         sym = '%20'.join(index.split(' '))
+        sym = sym.upper()
         idx_respo = requests.post(f'https://www.nseindia.com/api/equity-stockIndices?csv=true&index={sym}', headers=headers, cookies=self.nse.cookies)
         with open(f'I:\\Programming\\WorkShop\\stock-analysis\\data\\{index}.csv', 'wb') as fh:
             fh.write(idx_respo.content)
@@ -67,7 +68,7 @@ class NseIndia:
             date = datetime.datetime.now().strftime('%d%b%Y')
 
         try :
-            res = requests.get(f'https://archives.nseindia.com/content/historical/EQUITIES/2023/APR/cm{date.upper()}bhav.csv.zip')
+            res = requests.get(f'https://archives.nseindia.com/content/historical/EQUITIES/2023/MAY/cm{date.upper()}bhav.csv.zip')
             print('Response code ... ',res.status_code)
             bhav = res.content
             with open('I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav.zip', 'wb') as z:
@@ -88,7 +89,7 @@ class NseIndia:
             if flag:
                 print('Fatching bhavcopy failed. :(')
             else:
-                print(f'Successfully Fatched bhavcopy and saved at data\\{date.upper()}bhav.csv')
+                print(f'Successfully Fatched bhavcopy and saved at I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav{date.upper()}.csv')
 
     def bulk_deals(self) -> pd.DataFrame:
         '''
@@ -135,5 +136,5 @@ class yahoo:
 
     
 if __name__ == "__main__":
-    nse = yahoo()
-    print(nse.historical_data('SBIN', _from = '1-1-2021'))
+    nse = NseIndia()
+    print(nse.index_data('nifty 50'))
