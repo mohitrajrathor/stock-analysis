@@ -1,4 +1,5 @@
 # libraries used
+
 import pandas as pd
 import numpy as np
 
@@ -61,3 +62,7 @@ def VWAP(price: pd.Series, vol:pd.Series, period:int = 14) -> pd.Series:
     vmp = num.rolling(period).sum() 
     sv = vol.rolling(period).sum()
     return vmp/sv
+
+# calcualting macd.
+def MACD():
+    pass

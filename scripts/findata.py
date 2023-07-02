@@ -56,6 +56,7 @@ class NseIndia:
         return f'I:\\Programming\\WorkShop\\stock-analysis\\data\\{index}.csv'
 
     def get_bhavcopy(self, date = None) -> None:
+        print('Fatching bhavcopy...')
         '''
         Fatch bhavcopy
         parms ->
@@ -69,7 +70,7 @@ class NseIndia:
 
         try :
             res = requests.get(f'https://archives.nseindia.com/content/historical/EQUITIES/2023/MAY/cm{date.upper()}bhav.csv.zip')
-            print('Response code ... ',res.status_code)
+            print('geting response...  "',res.status_code,'"')
             bhav = res.content
             with open('I:\\Programming\\WorkShop\\stock-analysis\\data\\bhav.zip', 'wb') as z:
                 z.write(bhav)
@@ -131,10 +132,10 @@ class yahoo:
         with open(f'I:\\Programming\\WorkShop\\stock-analysis\\data\\{symbol}.csv', 'wb') as fh:
             fh.write(res.content)
 
-        return f'data\\{symbol}.csv'  # return the name or locaion of the file so that we can
+        return f'I:\\Programming\\WorkShop\\stock-analysis\\data\\{symbol}.csv'  # return the name or locaion of the file so that we can
                                       #  easily find out the location of the csv file.
 
     
-if __name__ == "__main__":
-    nse = NseIndia()
-    print(nse.index_data('nifty 50'))
+# if __name__ == "__main__":
+#     nse = NseIndia()
+#     print(nse.get_bhavcopy())
